@@ -1,17 +1,13 @@
 import { AppProps } from 'next/app';
-import { Amplify } from 'aws-amplify';
+import { CognitoUserPool } from 'amazon-cognito-identity-js';
 
-// Configure Amplify with your AWS Cognito settings
-Amplify.configure({
-  Auth: {
-    region: 'us-east-1',
-    userPoolId: 'us-east-1_HStj7aHOo',
-    userPoolWebClientId: '6osm3nuddqcie89nv0uc1b8t09',
-  },
+const userPool = new CognitoUserPool({
+  UserPoolId: 'us-east-1_HStj7aHOo',
+  ClientId: '6osm3nuddqcie89nv0uc1b8t09',
 });
 
 const App = ({ Component, pageProps }: AppProps) => {
-  return <Component {...pageProps} />;
+  return <Component userPool={userPool} {...pageProps} />;
 };
 
 export default App;

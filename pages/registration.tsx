@@ -1,5 +1,6 @@
+
 import { useState } from 'react';
-import { Auth } from 'aws-amplify';
+import { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetails } from 'amazon-cognito-identity-js';
 
 const RegistrationPage = () => {
   const [email, setEmail] = useState('');
@@ -9,6 +10,16 @@ const RegistrationPage = () => {
   const [password, setPassword] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
   const [showVerificationForm, setShowVerificationForm] = useState(false);
+
+  const userPoolId = 'us-east-1_HStj7aHOo';
+  const clientId = '6osm3nuddqcie89nv0uc1b8t09';
+
+  const poolData = {
+    UserPoolId: userPoolId,
+    ClientId: clientId,
+  };
+
+  const userPool = new CognitoUserPool(poolData);
 
   const generateRandomPassword = () => {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
@@ -24,99 +35,140 @@ const RegistrationPage = () => {
     e.preventDefault();
 
     try {
-      await Auth.signUp({
-        username: email,
-        password,
-        attributes: {
-          email,
-          phone_number: phone,
-          given_name: givenName,
-          family_name: familyName,
-        },
+      const userAttributes = [
+        new CognitoUserAttribute({
+          Name: 'email',
+          Value: email,
+        }),
+        new CognitoUserAttribute({
+          Name: 'phone_number',
+          Value: phone,
+        }),
+        new CognitoUserAttribute({
+          Name: 'given_name',
+          Value: givenName,
+        }),
+        new CognitoUserAttribute({
+          Name: 'family_name',
+          Value: familyName,
+        }),
+      ];
+
+      await new Promise<void>((resolve, reject) => {
+        userPool.signUp(email, password, userAttributes, [], (error, result) => {
+          if (error) {
+            console.log('Registration error:', error);
+            reject();
+          } else {
+            console.log('Registration successful:', result);
+            setShowVerificationForm(true);
+            resolve();
+          }
+        });
       });
-
-     
-      setShowVerificationForm(true);
     } catch (error) {
-
       console.log('Registration error:', error);
     }
   };
 
-  const handleVerification = async (e: React.FormEvent) => {
+  const handleVerification = (e: React.FormEvent) => {
     e.preventDefault();
 
-    try {
-  
-      await Auth.confirmSignUp(email, verificationCode);
-      
+    const cognitoUser = new CognitoUser({
+      Username: email,
+      Pool: userPool,
+    });
 
-    } catch (error) {
-
-      console.log('Verification error:', error);
-    }
+    cognitoUser.confirmRegistration(verificationCode, true, (error, result) => {
+      if (error) {
+        console.log('Verification error:', error);
+      } else {
+        console.log('Verification successful');
+      }
+    });
   };
 
-  return (
-    <div>
-      {!showVerificationForm && (
-        <form onSubmit={handleRegistration}>
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <input
-            type="text"
-            placeholder="Phone"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            required
-          />
-          <input
-            type="text"
-            placeholder="Given Name"
-            value={givenName}
-            onChange={(e) => setGivenName(e.target.value)}
-            required
-          />
-          <input
-            type="text"
-            placeholder="Family Name"
-            value={familyName}
-            onChange={(e) => setFamilyName(e.target.value)}
-            required
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <button type="button" onClick={generateRandomPassword}>
-            Generate Password
-          </button>
-          <button type="submit">Register</button>
-        </form>
-      )}
+  return(
 
-      {showVerificationForm && (
-        <form onSubmit={handleVerification}>
-          <input
-            type="text"
-            placeholder="Verification Code"
-            value={verificationCode}
-            onChange={(e) => setVerificationCode(e.target.value)}
-            required
-          />
-          <button type="submit">Verify</button>
-        </form>
-      )}
-    </div>
-  );
+
+
+  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: '#f5f5f5' }} >
+       {!showVerificationForm && (
+          <form onSubmit={handleRegistration}
+          style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '70vh', background: 'white' }}
+          >
+  
+  <h1>Registration Form</h1>
+      <br></br>
+  
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              style={{ padding: '10px', marginBottom: '10px', width: '300px', minWidth: '200px', marginRight: '20px', marginLeft: '20px' }}
+              required
+            />
+            <input
+              type="text"
+              placeholder="Phone"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              style={{ padding: '10px', marginBottom: '10px', width: '300px', minWidth: '200px', marginRight: '20px', marginLeft: '20px' }}
+              required
+            />
+            <input
+              type="text"
+              placeholder="Given Name"
+              value={givenName}
+              onChange={(e) => setGivenName(e.target.value)}
+              style={{ padding: '10px', marginBottom: '10px', width: '300px', minWidth: '200px', marginRight: '20px', marginLeft: '20px' }}
+              required
+            />
+            <input
+              type="text"
+              placeholder="Family Name"
+              value={familyName}
+              onChange={(e) => setFamilyName(e.target.value)}
+              style={{ padding: '10px', marginBottom: '10px', width: '300px', minWidth: '200px', marginRight: '20px', marginLeft: '20px' }}
+              required
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              style={{ padding: '10px', marginBottom: '10px', width: '300px', minWidth: '200px', marginRight: '20px', marginLeft: '20px' }}
+              required
+            />
+            <button type="button" onClick={generateRandomPassword} style={{ marginBottom:"15px",padding: '10px 20px', background: '#007bff', color: '#fff', border: 'none', cursor: 'pointer', marginRight: '20px', marginLeft: '20px' }}>
+              Generate Password
+            </button>
+            <button type="submit" style={{ padding: '10px 20px', background: '#007bff', color: '#fff', border: 'none', cursor: 'pointer' }}>
+              Register
+            </button>
+          </form>
+        )}
+  
+        {showVerificationForm && (
+          <form onSubmit={handleVerification}>
+            <input
+              type="text"
+              placeholder="Verification Code"
+              value={verificationCode}
+              onChange={(e) => setVerificationCode(e.target.value)}
+              style={{ padding: '10px', marginBottom: '10px', width: '300px', minWidth: '200px', marginRight: '20px', marginLeft: '20px' }}
+              required
+            />
+            <button type="submit" style={{ padding: '10px 20px', background: '#007bff', color: '#fff', border: 'none', cursor: 'pointer' }}>
+              Verify
+            </button>
+          </form>
+        )}
+      </div>
+  )
+
+    
 };
 
 export default RegistrationPage;
