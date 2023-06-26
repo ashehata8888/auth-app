@@ -54,7 +54,7 @@ const LoginPage = () => {
         onSubmit={handleSignIn}
         style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '50vh', background: 'white' }}
       >
-        <h1>Log In</h1>
+        <h1>Login</h1>
         <br></br>
         <input
           type="email"
