@@ -95,7 +95,7 @@ const RegistrationPage = () => {
   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: '#f5f5f5' }} >
        {!showVerificationForm && (
           <form onSubmit={handleRegistration}
-          style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '70vh', background: 'white' }}
+          style={{ borderRadius:"25px", display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '70vh', background: 'white' }}
           >
   
   <h1>Registration Form</h1>
@@ -106,7 +106,7 @@ const RegistrationPage = () => {
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              style={{ padding: '10px', marginBottom: '10px', width: '300px', minWidth: '200px', marginRight: '20px', marginLeft: '20px' }}
+              style={{ borderRadius:"5px", padding: '10px', marginBottom: '10px', width: '300px', minWidth: '200px', marginRight: '20px', marginLeft: '20px' }}
               required
             />
             <input
@@ -114,7 +114,7 @@ const RegistrationPage = () => {
               placeholder="Phone"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              style={{ padding: '10px', marginBottom: '10px', width: '300px', minWidth: '200px', marginRight: '20px', marginLeft: '20px' }}
+              style={{ borderRadius:"5px",padding: '10px', marginBottom: '10px', width: '300px', minWidth: '200px', marginRight: '20px', marginLeft: '20px' }}
               required
             />
             <input
@@ -122,7 +122,7 @@ const RegistrationPage = () => {
               placeholder="Given Name"
               value={givenName}
               onChange={(e) => setGivenName(e.target.value)}
-              style={{ padding: '10px', marginBottom: '10px', width: '300px', minWidth: '200px', marginRight: '20px', marginLeft: '20px' }}
+              style={{ borderRadius:"5px",padding: '10px', marginBottom: '10px', width: '300px', minWidth: '200px', marginRight: '20px', marginLeft: '20px' }}
               required
             />
             <input
@@ -130,7 +130,7 @@ const RegistrationPage = () => {
               placeholder="Family Name"
               value={familyName}
               onChange={(e) => setFamilyName(e.target.value)}
-              style={{ padding: '10px', marginBottom: '10px', width: '300px', minWidth: '200px', marginRight: '20px', marginLeft: '20px' }}
+              style={{borderRadius:"5px", padding: '10px', marginBottom: '10px', width: '300px', minWidth: '200px', marginRight: '20px', marginLeft: '20px' }}
               required
             />
             <input
@@ -138,13 +138,13 @@ const RegistrationPage = () => {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              style={{ padding: '10px', marginBottom: '10px', width: '300px', minWidth: '200px', marginRight: '20px', marginLeft: '20px' }}
+              style={{ borderRadius:"5px",padding: '10px', marginBottom: '10px', width: '300px', minWidth: '200px', marginRight: '20px', marginLeft: '20px' }}
               required
             />
-            <button type="button" onClick={generateRandomPassword} style={{ marginBottom:"15px",padding: '10px 20px', background: '#007bff', color: '#fff', border: 'none', cursor: 'pointer', marginRight: '20px', marginLeft: '20px' }}>
+            <button type="button" onClick={generateRandomPassword} style={{ borderRadius:"10px", marginBottom:"15px",padding: '10px 20px', background: '#007bff', color: '#fff', border: 'none', cursor: 'pointer', marginRight: '20px', marginLeft: '20px' }}>
               Generate Password
             </button>
-            <button type="submit" style={{ padding: '10px 20px', background: '#007bff', color: '#fff', border: 'none', cursor: 'pointer' }}>
+            <button type="submit" style={{ borderRadius:"10px", padding: '10px 20px', background: '#007bff', color: '#fff', border: 'none', cursor: 'pointer' }}>
               Register
             </button>
           </form>

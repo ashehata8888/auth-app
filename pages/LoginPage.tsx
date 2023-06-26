@@ -52,7 +52,7 @@ const LoginPage = () => {
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: '#f5f5f5', flexDirection: 'column' }}>
       <form
         onSubmit={handleSignIn}
-        style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '50vh', background: 'white' }}
+        style={{ borderRadius:"25px", display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '50vh', background: 'white' }}
       >
         <h1>Login</h1>
         <br></br>
@@ -72,12 +72,12 @@ const LoginPage = () => {
           style={{ padding: '10px', marginBottom: '10px', width: '300px', marginRight: '20px', marginLeft: '20px' }}
           required
         />
-        <button type="submit" style={{ padding: '10px 20px', background: '#007bff', color: '#fff', border: 'none', cursor: 'pointer' }}>
+        <button type="submit" style={{ borderRadius:"10px", marginTop:"20px",padding: '10px 20px', background: '#007bff', color: '#fff', border: 'none', cursor: 'pointer' }}>
           Sign In
         </button>
       </form>
 
-      <button onClick={() => handleRedirect('/registration')}>Register</button>
+      <button onClick={() => handleRedirect('/registration')} style={{ borderRadius:"10px",padding: '10px 20px', background: '#007bff', color: '#fff', border: 'none', cursor: 'pointer' }}>Create New Account</button>
     </div>
   );
 };
