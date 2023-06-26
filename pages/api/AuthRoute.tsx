@@ -13,7 +13,7 @@ const AuthRoute: React.FC<AuthRouteProps> = ({ children }) => {
     const isLoggedIn = userPool.getCurrentUser() !== null;
 
     if (!isLoggedIn) {
-      router.push('/login'); // Redirect to login page if not logged in
+      router.push('/'); 
     }
   }, []);
 
